@@ -35,14 +35,28 @@ function minuteCountDown() {
 }
 const correctWord=document.createElement('p')
 wordCountElement=document.createElement('p')
-wordDisplay=document.createElement('p')
-wordDisplay.style.fontSize='20px'
-wordDisplay.style.fontFamily="Ubuntu"
+const wordDisplay=document.createElement('div')
+wordDisplay.style.display='flex'
+wordDisplay.style.flexWrap='wrap'
 strWordList=String(listedWords)
+let wordplaceholder=new word('fasdf',true)
+if (wordplaceholder.isTyped==true){
+    wordplaceholder.text.style.color='green'
+}
+wordDisplay.append(wordplaceholder.text)
 for (i=0;i<listedWords.length;i++){
     strWordList=strWordList.replace(',',' ')
 }
-wordDisplay.innerText=strWordList
+
+function word(text,isTyped){
+    this.text=document.createElement('span')
+    this.text.style.fontSize='30px'
+    this.text.style.fontFamily='Ubuntu Mono'
+    this.isTyped=isTyped
+    this.text.innerText=text
+    this.text.style.color='black'
+    }
+
 document.body.append(wordDisplay)
 document.body.append(wordCountElement)
 document.body.append(correctWord)
