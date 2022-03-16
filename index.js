@@ -1,4 +1,4 @@
-const wordList=['word1','asddasd']
+const listedWords=['word1','asddasd']
 let minute = 10
 let input = document.getElementById("input")
 input.style.height="50px"
@@ -16,10 +16,10 @@ function minuteCountDown() {
                 minute = minute - 1
                 timerElement.innerText = minute;
                 console.log(wordCount)
-                console.log(wordList.length)
+                console.log(listedWords.length)
             }
-            if(wordCount>=wordList.length){
-                console.log(wordCount + wordList.length)
+            if(wordCount>=listedWords.length){
+                console.log(wordCount + listedWords.length)
                 clearInterval(timer)
                 input.removeEventListener('focus',minuteCountDown)
             }
@@ -38,8 +38,8 @@ wordCountElement=document.createElement('p')
 wordDisplay=document.createElement('p')
 wordDisplay.style.fontSize='20px'
 wordDisplay.style.fontFamily="Ubuntu"
-strWordList=String(wordList)
-for (i=0;i<wordList.length;i++){
+strWordList=String(listedWords)
+for (i=0;i<listedWords.length;i++){
     strWordList=strWordList.replace(',',' ')
 }
 wordDisplay.innerText=strWordList
@@ -52,18 +52,15 @@ input.addEventListener('focus', minuteCountDown)
 input.addEventListener('keydown', function (keyPress) {
     setTimeout(()=>{if (keyPress.key === ' ' && minute>0 && input.value.length>1 && input.value[1]!='' ) {
         typedWord=input.value
-        if (typedWord.trim()==wordList[wordCount] ){
+        if (typedWord.trim()==listedWords[wordCount] ){
             correctWords=correctWords+1
-            correctWord.innerText=correctWords
         }
-        if (wordCount<wordList.length){
+        if (wordCount<listedWords.length){
         wordCount = wordCount + 1
-        console.log(wordCount)
 
 
         }
         input.value=""
-        //wordCountElement.innerText=wordCount
         input.focus()    
     }},10)
     
