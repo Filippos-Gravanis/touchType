@@ -1,5 +1,5 @@
 const listedWords = ['word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd']
-let timeLeft = 10
+let timeLeft = 60
 let input = document.getElementById("input")
 input.style.height = "50px"
 input.style.width = "100%"
@@ -7,7 +7,7 @@ input.style.fontSize = '20px'
 input.style.border = "1px solid blue"
 input.style.borderRadius = '10px'
 let isTimerStarted = false
-function minuteCountDown() {
+function timeCountDown() {
     if (isTimerStarted == false) {
         isTimerStarted = true
         const countDownElement = document.getElementById('timerElement');
@@ -21,11 +21,11 @@ function minuteCountDown() {
             if (typedWordCount >= listedWords.length) {
                 console.log(typedWordCount + listedWords.length)
                 clearInterval(countDown)
-                input.removeEventListener('focus', minuteCountDown)
+                input.removeEventListener('focus', timeCountDown)
             }
             else if (timeLeft <= 0) {
                 clearInterval(countDown)
-                input.removeEventListener('focus', minuteCountDown)
+                input.removeEventListener('focus', timeCountDown)
             }
         }
 
@@ -33,13 +33,17 @@ function minuteCountDown() {
     }
 
 }
+
 const correctWord = document.createElement('p')
 wordCountElement = document.createElement('p')
 const displayWords = document.createElement('div')
+
 displayWords.style.display = 'flex'
 displayWords.style.flexWrap = 'wrap'
 displayWords.style.gap="10px"
+
 let displaydWordsList=[]
+
 for (i = 0; i < listedWords.length; i++) {
     let wordplaceholder = new word(listedWords[i], false)
     console.log(wordplaceholder.text)
@@ -58,9 +62,11 @@ function word(text) {
 document.body.append(displayWords)
 document.body.append(wordCountElement)
 document.body.append(correctWord)
+
 let typedWordCount = 0
 let correctWordCount = 0
-input.addEventListener('focus', minuteCountDown)
+
+input.addEventListener('focus', timeCountDown)
 input.addEventListener('keydown', function (keyPress) {
     setTimeout(() => {
         if (keyPress.key === ' ' && timeLeft > 0 && input.value.length > 1 && input.value[1] != '') {
@@ -81,7 +87,7 @@ input.addEventListener('keydown', function (keyPress) {
             input.value = ""
             input.focus()
         }
-    }, 10)
+    }, 0)
 
 
 })
