@@ -1,4 +1,4 @@
-const listedWords = ['word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd','word1', 'asddasd']
+const listedWords = ['word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd']
 let timeLeft = 60
 let input = document.getElementById("input")
 input.style.height = "50px"
@@ -15,11 +15,8 @@ function timeCountDown() {
             if (timeLeft > 0) {
                 timeLeft = timeLeft - 1
                 countDownElement.innerText = timeLeft;
-                console.log(typedWordCount)
-                console.log(listedWords.length)
             }
             if (typedWordCount >= listedWords.length) {
-                console.log(typedWordCount + listedWords.length)
                 clearInterval(countDown)
                 input.removeEventListener('focus', timeCountDown)
             }
@@ -36,21 +33,29 @@ function timeCountDown() {
 
 const correctWord = document.createElement('p')
 wordCountElement = document.createElement('p')
-const displayWords = document.createElement('div')
+const displayWordsContainer = document.createElement('div')
 
-displayWords.style.display = 'flex'
-displayWords.style.flexWrap = 'wrap'
-displayWords.style.gap="10px"
+displayWordsContainer.style.display = 'flex'
+displayWordsContainer.style.flexWrap = 'wrap'
+displayWordsContainer.style.gap = "10px"
 
-let displaydWordsList=[]
-
+let displaydWordsList = []
+let listedWordsCount = listedWords.length
 for (i = 0; i < listedWords.length; i++) {
     let wordplaceholder = new word(listedWords[i], false)
-    console.log(wordplaceholder.text)
     displaydWordsList.push(wordplaceholder)
-    displayWords.append(wordplaceholder.text)
-}
 
+}
+if (listedWordsCount >= 10) {
+    for (i = 0; i < 10; i++) {
+        displayWordsContainer.append(displaydWordsList[i].text)
+    }
+
+}
+else {
+    for (i = 0; i < listedWordsCount; i++)
+        displayWordsContainer.append(displaydWordsList[i].text)
+}
 function word(text) {
     this.text = document.createElement('span')
     this.text.style.fontSize = '30px'
@@ -59,35 +64,66 @@ function word(text) {
     this.text.style.color = 'black'
 }
 
-document.body.append(displayWords)
+document.body.append(displayWordsContainer)
 document.body.append(wordCountElement)
 document.body.append(correctWord)
 
 let typedWordCount = 0
 let correctWordCount = 0
 
+displaydWordsList[0].text.style.backgroundColor = "#CECCCC"
+
 input.addEventListener('focus', timeCountDown)
 input.addEventListener('keydown', function (keyPress) {
     setTimeout(() => {
-        if (keyPress.key === ' ' && timeLeft > 0 && input.value.length > 1 && input.value[1] != '') {
+        if (keyPress.key === ' ' && timeLeft > 0 && input.value.length > 1 && input.value[1] != '' && typedWordCount < listedWords.length) {
             typedWord = input.value
+            if (typedWordCount != 0) {
+                displaydWordsList[0].text.style.backgroundColor = "white"
+            }
             if (typedWord.trim() == listedWords[typedWordCount]) {
                 correctWordCount = correctWordCount + 1
-                displaydWordsList[typedWordCount].text.style.color='green'
+                displaydWordsList[typedWordCount].text.style.color = 'green'
             }
-            else{
-                displaydWordsList[typedWordCount].text.style.color='red'
+            else {
+                displaydWordsList[typedWordCount].text.style.color = 'red'
             }
+            typedWordCount = typedWordCount + 1
+
+
             if (typedWordCount < listedWords.length) {
-                typedWordCount = typedWordCount + 1
+                displaydWordsList[typedWordCount].text.style.backgroundColor = "#CECCCC"
+                console.log(typedWordCount, listedWords.length)
+            }
+            if (typedWordCount > 0) {
+                displaydWordsList[typedWordCount - 1].text.style.backgroundColor = "white"
+            }
+            if (typedWordCount % 10 == 0) {
+                while (displayWordsContainer.firstChild) {
+                    displayWordsContainer.removeChild(displayWordsContainer.firstChild);
+                    }
+                
+                if (listedWords.length - typedWordCount >= 10) {
 
 
+                    for (i = -1; i < 10; i++) {
+                        displayWordsContainer.append(displaydWordsList[typedWordCount + 1].text)
+                    }
+
+                }
+                else {
+                    for (i = 0; i < listedWords.length - typedWordCount+1; i++) {
+                        displayWordsContainer.append(displaydWordsList[typedWordCount].text)
+                    }
+                }
 
             }
+            
+
             input.value = ""
             input.focus()
         }
-    }, 0)
+    }, 1)
 
 
 })
