@@ -106,7 +106,7 @@ input.addEventListener('keydown', function (keyPress) {
                 if (listedWords.length - typedWordCount >= 10) {
 
 
-                    for (i = -1; i < 10; i++) {
+                    for (i = 0; i < 10; i++) {
                         displayWordsContainer.append(displaydWordsList[typedWordCount + i].text)
                     }
 
