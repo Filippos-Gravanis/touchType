@@ -1,28 +1,24 @@
-const listedWords = ['word1', 'asddasd']
+const wordList = ['word1', 'asddasd']
 let timeLeft = 60
-let input = document.getElementById("input")
+const input = document.getElementById("input")
 input.style.height = "50px"
 input.style.width = "100%"
 input.style.fontSize = '20px'
 input.style.border = "1px solid blue"
 input.style.borderRadius = '10px'
-let isTimerStarted = false
-function timeCountDown() {
-    if (isTimerStarted == false) {
-        isTimerStarted = true
+let isCountdownStarted = false
+function timeLeftCountDown() {
+    if (isCountdownStarted == false) {
+        isCountdownStarted = true
         const countDownElement = document.getElementById('timerElement');
         const countDown = setInterval(() => {
             if (timeLeft > 0) {
                 timeLeft = timeLeft - 1
                 countDownElement.innerText = timeLeft;
             }
-            if (typedWordCount >= listedWords.length) {
+            if (typedWordCount >= wordList.length || timeLeft <= 0) {
                 clearInterval(countDown)
-                input.removeEventListener('focus', timeCountDown)
-            }
-            else if (timeLeft <= 0) {
-                clearInterval(countDown)
-                input.removeEventListener('focus', timeCountDown)
+                input.removeEventListener('focus', timeLeftCountDown)
             }
         }
 
@@ -39,22 +35,22 @@ displayWordsContainer.style.display = 'flex'
 displayWordsContainer.style.flexWrap = 'wrap'
 displayWordsContainer.style.gap = "10px"
 
-let displaydWordsList = []
-let listedWordsCount = listedWords.length
-for (i = 0; i < listedWords.length; i++) {
-    let wordplaceholder = new word(listedWords[i], false)
-    displaydWordsList.push(wordplaceholder)
+let displayedWordsList = []
+let wordListLength = wordList.length
+for (i = 0; i < wordList.length; i++) {
+    let wordplaceholder = new word(wordList[i], false)
+    displayedWordsList.push(wordplaceholder)
 
 }
-if (listedWordsCount >= 10) {
+if (wordListLength >= 10) {
     for (i = 0; i < 10; i++) {
-        displayWordsContainer.append(displaydWordsList[i].text)
+        displayWordsContainer.append(displayedWordsList[i].text)
     }
 
 }
 else {
-    for (i = 0; i < listedWordsCount; i++)
-        displayWordsContainer.append(displaydWordsList[i].text)
+    for (i = 0; i < wordListLength; i++)
+        displayWordsContainer.append(displayedWordsList[i].text)
 }
 function word(text) {
     this.text = document.createElement('span')
@@ -69,52 +65,52 @@ document.body.append(wordCountElement)
 document.body.append(correctWord)
 
 let typedWordCount = 0
-let correctWordCount = 0
+let correctWordsCount = 0
 
-displaydWordsList[0].text.style.backgroundColor = "#CECCCC"
+displayedWordsList[0].text.style.backgroundColor = "#CECCCC"
 
-input.addEventListener('focus', timeCountDown)
+input.addEventListener('focus', timeLeftCountDown)
 input.addEventListener('keydown', function (keyPress) {
     setTimeout(() => {
-        if (keyPress.key === ' ' && timeLeft > 0 && input.value.length > 1 && input.value[1] != '' && typedWordCount < listedWords.length) {
+        if (keyPress.key === ' ' && timeLeft > 0 && input.value.length > 1 && input.value[1] != '' && typedWordCount < wordList.length) {
             typedWord = input.value
             if (typedWordCount != 0) {
-                displaydWordsList[0].text.style.backgroundColor = "white"
+                displayedWordsList[0].text.style.backgroundColor = "white"
             }
-            if (typedWord.trim() == listedWords[typedWordCount]) {
-                correctWordCount = correctWordCount + 1
-                displaydWordsList[typedWordCount].text.style.color = 'green'
+            if (typedWord.trim() == wordList[typedWordCount]) {
+                correctWordsCount = correctWordsCount + 1
+                displayedWordsList[typedWordCount].text.style.color = 'green'
             }
             else {
-                displaydWordsList[typedWordCount].text.style.color = 'red'
+                displayedWordsList[typedWordCount].text.style.color = 'red'
             }
             typedWordCount = typedWordCount + 1
 
 
-            if (typedWordCount < listedWords.length) {
-                displaydWordsList[typedWordCount].text.style.backgroundColor = "#CECCCC"
-                console.log(typedWordCount, listedWords.length)
+            if (typedWordCount < wordList.length) {
+                displayedWordsList[typedWordCount].text.style.backgroundColor = "#CECCCC"
+                console.log(typedWordCount, wordList.length)
             }
             if (typedWordCount > 0) {
-                displaydWordsList[typedWordCount - 1].text.style.backgroundColor = "white"
+                displayedWordsList[typedWordCount - 1].text.style.backgroundColor = "white"
             }
             if (typedWordCount % 10 == 0) {
                 while (displayWordsContainer.firstChild) {
                     displayWordsContainer.removeChild(displayWordsContainer.firstChild);
                     }
                 
-                if (listedWords.length - typedWordCount >= 10) {
+                if (wordList.length - typedWordCount >= 10) {
 
 
                     for (i = 0; i < 10; i++) {
-                        displayWordsContainer.append(displaydWordsList[typedWordCount + i].text)
+                        displayWordsContainer.append(displayedWordsList[typedWordCount + i].text)
                     }
 
                 }
                 else {
-                    for (i = 0; i < listedWords.length - typedWordCount; i++) {
-                        console.log(i,listedWords.length,typedWordCount)
-                        displayWordsContainer.append(displaydWordsList[typedWordCount+i].text)
+                    for (i = 0; i < wordList.length - typedWordCount; i++) {
+                        console.log(i,wordList.length,typedWordCount)
+                        displayWordsContainer.append(displayedWordsList[typedWordCount+i].text)
                     }
                 }
 
