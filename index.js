@@ -1,4 +1,4 @@
-const listedWords = ['word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd', 'word1', 'asddasd']
+const listedWords = ['word1', 'asddasd']
 let timeLeft = 60
 let input = document.getElementById("input")
 input.style.height = "50px"
@@ -107,13 +107,14 @@ input.addEventListener('keydown', function (keyPress) {
 
 
                     for (i = -1; i < 10; i++) {
-                        displayWordsContainer.append(displaydWordsList[typedWordCount + 1].text)
+                        displayWordsContainer.append(displaydWordsList[typedWordCount + i].text)
                     }
 
                 }
                 else {
-                    for (i = 0; i < listedWords.length - typedWordCount+1; i++) {
-                        displayWordsContainer.append(displaydWordsList[typedWordCount].text)
+                    for (i = 0; i < listedWords.length - typedWordCount; i++) {
+                        console.log(i,listedWords.length,typedWordCount)
+                        displayWordsContainer.append(displaydWordsList[typedWordCount+i].text)
                     }
                 }
 
