@@ -1,4 +1,4 @@
-const wordList = ['word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",'word1', 'asddasd', "why", "yes", "no",]
+const wordList = ['word1', 'asddasd' ]
 let timeLeft = 60
 let wordIndex = 0
 const input = document.getElementById("input")
@@ -77,7 +77,14 @@ let typedWordsCount = 0
 let correctWordsCount = 0
 
 displayedWordsList[0].text.style.backgroundColor = "#CECCCC"
-
+const restartButton=document.getElementById('restartBtn')
+restartButton.addEventListener('click', ()=>{
+    timeLeft=60
+    typedWordsCount=0
+    correctWordsCount=0
+    isCountdownStarted=false
+    input.addEventListener('focus', timeLeftCountDown)
+})
 input.addEventListener('focus', timeLeftCountDown)
 input.addEventListener('keydown', function (keyPress) {
     setTimeout(() => {
@@ -147,7 +154,6 @@ input.addEventListener('keydown', function (keyPress) {
             else {
                 displayedWordsList[typedWordsCount].text.style.color = "black"
             }
-            console.log(input.value, displayedWordsList[typedWordsCount].text.innerText.substr(0, input.value.length))
             wordIndex = wordIndex + 1
         }
     }, 1)
